@@ -2,9 +2,9 @@ spring:
   application:
     name: spring-mvc
   datasource:
-    username: spring-mvc
-    password: Passw0rd   
-    url: jdbc:mysql://locahost:3306/spring-mvc
+    username: spring_user
+    password: Passm0rd
+    url: jdbc:mysql://locahost:3306/spring_mvc
   jpa:
     hibernate:
       ddl-auto: update
