@@ -2,12 +2,12 @@ package com.sivaram.learning.mvc.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sivaram.learning.mvc.dto.UserDetailsDTO;
 import com.sivaram.learning.mvc.entity.UserEntity;
+import com.sivaram.learning.mvc.mapper.UserDetailsMapper;
 import com.sivaram.learning.mvc.repo.UserRepository;
 
 @Service
@@ -15,6 +15,9 @@ public class UserDetailServiceImpl implements UserDetailService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	UserDetailsMapper userMapper;
 
 	@Override
 	public UserDetailsDTO createUser(UserDetailsDTO userDetailsDTO) {
@@ -29,13 +32,16 @@ public class UserDetailServiceImpl implements UserDetailService {
 		UserEntity entity = new UserEntity();
 		UserDetailsDTO dto = new UserDetailsDTO();
 
-		BeanUtils.copyProperties(userDetailsDTO, entity);
+		//BeanUtils.copyProperties(userDetailsDTO, entity);
+		entity = userMapper.dtotoEntity(userDetailsDTO);
+		
 
 		entity.setEncryptedPassword("123456");
 		entity.setUserId("Test User");
 
 		UserEntity userEntity = userRepository.save(entity);
-		BeanUtils.copyProperties(userEntity, dto);
+		//BeanUtils.copyProperties(userEntity, dto);
+		dto = userMapper.entityToDTO(userEntity);
 
 		return dto;
 	}
