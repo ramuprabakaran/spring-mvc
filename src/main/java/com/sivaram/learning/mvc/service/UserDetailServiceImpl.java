@@ -37,13 +37,32 @@ public class UserDetailServiceImpl implements UserDetailService {
 		
 
 		entity.setEncryptedPassword("123456");
-		entity.setUserId("Test User");
+		entity.setUserId("111");
 
 		UserEntity userEntity = userRepository.save(entity);
 		//BeanUtils.copyProperties(userEntity, dto);
 		dto = userMapper.entityToDTO(userEntity);
 
 		return dto;
+	}
+
+	@Override
+	public UserDetailsDTO getUserByUserId(String userId) {
+		System.out.println("Supplied User Id" + userId);
+		Optional<UserEntity> userByUserId = userRepository.findByUserId(userId);
+		
+		return userByUserId.map(userMapper::entityToDTO).orElseThrow(() -> new RuntimeException("User Id : " + userId + " is not Exists"));
+		
+//		userByUserId.orElseThrow(() -> new RuntimeException("User Id : " + userByUserId.get().getUserId() + " is not Exists"));
+//		
+//		if(userByUserId.isPresent()) {
+//			return userMapper.entityToDTO(userByUserId.get());
+//		}
+//		else {
+//			throw new RuntimeException("User Id : " + userByUserId.get().getUserId() + " is not Exists");
+//		}
+//		
+		
 	}
 
 }
