@@ -65,4 +65,35 @@ public class UserDetailServiceImpl implements UserDetailService {
 		
 	}
 
+
+
+	@Override
+	public UserDetailsDTO updateUser(String userId, UserDetailsDTO userDetailsDTO) {
+		
+		Optional<UserEntity> userByUserId = userRepository.findByUserId(userId);
+		
+//		userByUserId.ifPresent((user) -> {
+//			user.setFirstName(userDetailsDTO.getFirstName());
+//		});
+//		
+//		userByUserId.orElseThrow(() -> new RuntimeException("User Id : " + userId + " is not Exists"));
+		
+//		userByUserId.ifPresentOrElse((user) -> {
+//												user.setFirstName(userDetailsDTO.getFirstName());
+//											},
+//											() ->  new RuntimeException("User Id : " + userId + " is not Exists"));
+		
+		if(userByUserId.isPresent()) {
+			userByUserId.get().setFirstName(userDetailsDTO.getFirstName());	
+		}
+		else {
+			throw new RuntimeException("User Id : " + userId + " is not Exists");
+		}
+		
+		UserEntity updatedUser = userRepository.save(userByUserId.get());
+		
+		
+		return userMapper.entityToDTO(updatedUser);
+	}
+
 }

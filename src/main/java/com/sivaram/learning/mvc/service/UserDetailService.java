@@ -7,4 +7,6 @@ public interface UserDetailService {
 	UserDetailsDTO createUser(UserDetailsDTO userDetailsDTO);
 	
 	UserDetailsDTO getUserByUserId(String userId);
+
+	UserDetailsDTO updateUser(String userId, UserDetailsDTO userDetailsDTO);
 }
