@@ -1,5 +1,7 @@
 package com.sivaram.learning.mvc.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -13,4 +15,7 @@ public interface UserDetailsMapper {
 	UserDetailsDTO entityToDTO(UserEntity entity);
 	
 	UserEntity dtotoEntity(UserDetailsDTO detailsDTO);
+	
+	List<UserDetailsDTO> entityToDTOList(List<UserEntity> userEntities);
+	List<UserEntity> dtotoEntityList(List<UserDetailsDTO> detailsDTOs);
 }

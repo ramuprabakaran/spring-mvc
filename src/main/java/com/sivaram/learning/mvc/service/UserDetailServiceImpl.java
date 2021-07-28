@@ -1,8 +1,13 @@
 package com.sivaram.learning.mvc.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.sivaram.learning.mvc.dto.UserDetailsDTO;
@@ -104,6 +109,21 @@ public class UserDetailServiceImpl implements UserDetailService {
 		
 		userRepository.delete(userByUserId.get());
 		
+	}
+
+	@Override
+	public List<UserDetailsDTO> getUsers(int page, int limit) {
+
+		Pageable pageable = PageRequest.of(page, limit);
+		
+		Page<UserEntity> allUsersPage = userRepository.findAll(pageable);		
+		List<UserEntity> allUsers = allUsersPage.getContent();
+		
+		allUsers.stream().forEach(userMapper::entityToDTO);
+		
+		List<UserDetailsDTO> entityToDTOList = userMapper.entityToDTOList(allUsers);
+		
+		return entityToDTOList;
 	}
 
 }

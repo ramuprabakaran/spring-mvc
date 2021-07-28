@@ -1,5 +1,8 @@
 package com.sivaram.learning.mvc.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sivaram.learning.mvc.dto.UserDetailsDTO;
-import com.sivaram.learning.mvc.mapper.UserDetailsMapper;
 import com.sivaram.learning.mvc.service.UserDetailService;
 import com.sivaram.learning.mvc.ui.model.request.UserDetailsRequestModel;
 import com.sivaram.learning.mvc.ui.model.response.OperationalStatusModel;
@@ -74,6 +77,23 @@ public class UserController {
 				.operationName("DELETE")
 				.operationResult("SUCESS")
 				.build();
+	}
+	
+	@GetMapping
+	public List<UserDetailsResponseModel> getUsers(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "limit", defaultValue = "25") int limit ){
+		
+		List<UserDetailsResponseModel> userList = new ArrayList<>();
+		
+		
+		List<UserDetailsDTO> users = userDetailService.getUsers(page, limit);
+		
+		users.stream().forEach((user) -> {
+			UserDetailsResponseModel model = new UserDetailsResponseModel();
+			BeanUtils.copyProperties(user, model);
+			userList.add(model);
+		});
+		
+		return userList;
 	}
 
 }
