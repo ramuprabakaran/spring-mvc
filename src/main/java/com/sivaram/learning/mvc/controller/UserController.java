@@ -15,6 +15,7 @@ import com.sivaram.learning.mvc.dto.UserDetailsDTO;
 import com.sivaram.learning.mvc.mapper.UserDetailsMapper;
 import com.sivaram.learning.mvc.service.UserDetailService;
 import com.sivaram.learning.mvc.ui.model.request.UserDetailsRequestModel;
+import com.sivaram.learning.mvc.ui.model.response.OperationalStatusModel;
 import com.sivaram.learning.mvc.ui.model.response.UserDetailsResponseModel;
 
 @RestController
@@ -64,9 +65,15 @@ public class UserController {
 		return responseModel;
 	}
 	
-	@DeleteMapping
-	public String deleteUser() {
-		return "Delete User was called ";
+	@DeleteMapping(path = "/{userId}")
+	public OperationalStatusModel deleteUser(@PathVariable String userId) {
+		
+		userDetailService.deleteUser(userId);
+		
+		return OperationalStatusModel.builder()
+				.operationName("DELETE")
+				.operationResult("SUCESS")
+				.build();
 	}
 
 }

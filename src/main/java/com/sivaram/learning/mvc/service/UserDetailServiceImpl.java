@@ -96,4 +96,14 @@ public class UserDetailServiceImpl implements UserDetailService {
 		return userMapper.entityToDTO(updatedUser);
 	}
 
+	@Override
+	public void deleteUser(String userId) {
+		Optional<UserEntity> userByUserId = userRepository.findByUserId(userId);
+		
+		userByUserId.orElseThrow(() -> new RuntimeException("User Id : " + userId + " is not Exists"));
+		
+		userRepository.delete(userByUserId.get());
+		
+	}
+
 }

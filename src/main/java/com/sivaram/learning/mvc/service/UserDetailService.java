@@ -9,4 +9,6 @@ public interface UserDetailService {
 	UserDetailsDTO getUserByUserId(String userId);
 
 	UserDetailsDTO updateUser(String userId, UserDetailsDTO userDetailsDTO);
+	
+	void deleteUser(String userId);
 }
